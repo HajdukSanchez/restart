@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD4CD7422C90E08400E33B6E /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4CD7412C90E08400E33B6E /* ColorExtension.swift */; };
 		CDD61A682C90D1A70091BEC7 /* RestartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD61A672C90D1A70091BEC7 /* RestartApp.swift */; };
 		CDD61A6A2C90D1A70091BEC7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD61A692C90D1A70091BEC7 /* ContentView.swift */; };
 		CDD61A6C2C90D1AA0091BEC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDD61A6B2C90D1AA0091BEC7 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CD4CD7412C90E08400E33B6E /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		CDD61A642C90D1A70091BEC7 /* Restart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Restart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDD61A672C90D1A70091BEC7 /* RestartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestartApp.swift; sourceTree = "<group>"; };
 		CDD61A692C90D1A70091BEC7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 		CDD61A7C2C90D39C0091BEC7 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				CD4CD7412C90E08400E33B6E /* ColorExtension.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				CDD61A812C90D6080091BEC7 /* HomeView.swift in Sources */,
 				CDD61A6A2C90D1A70091BEC7 /* ContentView.swift in Sources */,
 				CDD61A682C90D1A70091BEC7 /* RestartApp.swift in Sources */,
+				CD4CD7422C90E08400E33B6E /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
