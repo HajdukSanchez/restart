@@ -13,6 +13,8 @@ struct OnboardingView: View {
     
     // If the key dont exist, it will add the value as a default one (otherwise true value is not set)
     @AppStorage("onboarding") var isOnboardingViewActive: Bool = true
+    @State private var buttonWidth: Double = UIScreen.main.bounds.width - 80
+    @State private var buttonOffset: CGFloat = 0 // Offset value in horizontal direction of button drag
     private var buttonSize: CGFloat = 80.0
     
     var body: some View {
@@ -43,7 +45,7 @@ struct OnboardingView: View {
                         .scaledToFit()
                 }
                 Spacer()
-                ZStack(alignment: .center) {
+                ZStack {
                     Capsule()
                         .fill(.white.opacity(0.2))
                     Capsule()
@@ -57,7 +59,7 @@ struct OnboardingView: View {
                     HStack {
                         Capsule()
                             .fill(Color.customRed)
-                            .frame(width: buttonSize)
+                            .frame(width: buttonOffset + buttonSize)
                         Spacer()
                     }
                     HStack {
@@ -72,14 +74,33 @@ struct OnboardingView: View {
                         }
                         .foregroundStyle(Color.white)
                         .frame(width: buttonSize, height: buttonSize, alignment: .center)
-                        .onTapGesture {
-                            isOnboardingViewActive = false
-                        }
+                        .offset(x: buttonOffset)
+                        .gesture(
+                            DragGesture()
+                                .onChanged { gesture in
+                                    if gesture.translation.width > 0 && buttonOffset <= buttonWidth - buttonSize {
+                                        // Change the value based on the gesture
+                                        // the value will change only when we drag to right direction
+                                        // And when the drag is inside the button width
+                                        buttonOffset = gesture.translation.width
+                                    }
+                                }
+                                .onEnded { _ in
+                                    if buttonOffset > buttonWidth / 2 {
+                                        // If the user stop drag after the half of the button width
+                                        buttonOffset = buttonWidth - buttonSize
+                                        isOnboardingViewActive = false
+                                    } else {
+                                        // If the user stop drag before the half of the button width
+                                        buttonOffset = 0
+                                    }
+                                }
+                        )
                         Spacer()
                     }
                 }
-                .frame(height: buttonSize, alignment: .center)
-                .padding()
+                .frame(width: buttonWidth, height: buttonSize, alignment: .center)
+                .padding(.vertical)
             }
         }
     }
