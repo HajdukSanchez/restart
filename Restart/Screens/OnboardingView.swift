@@ -15,6 +15,7 @@ struct OnboardingView: View {
     @AppStorage("onboarding") var isOnboardingViewActive: Bool = true
     @State private var buttonWidth: Double = UIScreen.main.bounds.width - 80
     @State private var buttonOffset: CGFloat = 0 // Offset value in horizontal direction of button drag
+    @State private var isAnimating: Bool = false // Indicator to trigger animation
     private var buttonSize: CGFloat = 80.0
     
     var body: some View {
@@ -38,11 +39,16 @@ struct OnboardingView: View {
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 10)
                 }
+                .opacity(isAnimating ? 1 : 0)
+                .offset(y: isAnimating ? 0 : -40)
+                .animation(.easeOut(duration: 1), value: isAnimating)
                 ZStack {
                     CircleGroupView(shapeColor: .white, shapeOpacity: 0.2)
                     Image("character-1")
                         .resizable()
                         .scaledToFit()
+                        .opacity(isAnimating ? 1 : 0)
+                        .animation(.easeOut(duration: 0.5), value: isAnimating)
                 }
                 Spacer()
                 ZStack {
@@ -78,7 +84,7 @@ struct OnboardingView: View {
                         .gesture(
                             DragGesture()
                                 .onChanged { gesture in
-                                    if gesture.translation.width > 0 && buttonOffset <= buttonWidth - buttonSize {
+                                    if gesture.translation.width > 0 && buttonOffset <= buttonWidth - buttonSize - 15 {
                                         // Change the value based on the gesture
                                         // the value will change only when we drag to right direction
                                         // And when the drag is inside the button width
@@ -86,13 +92,16 @@ struct OnboardingView: View {
                                     }
                                 }
                                 .onEnded { _ in
-                                    if buttonOffset > buttonWidth / 2 {
-                                        // If the user stop drag after the half of the button width
-                                        buttonOffset = buttonWidth - buttonSize
-                                        isOnboardingViewActive = false
-                                    } else {
-                                        // If the user stop drag before the half of the button width
-                                        buttonOffset = 0
+                                    // Starts a transaction to create an animation while values are changing
+                                    withAnimation(.easeOut(duration: 0.4)) {
+                                        if buttonOffset > buttonWidth / 2 {
+                                            // If the user stop drag after the half of the button width
+                                            buttonOffset = buttonWidth - buttonSize
+                                            isOnboardingViewActive = false
+                                        } else {
+                                            // If the user stop drag before the half of the button width
+                                            buttonOffset = 0
+                                        }
                                     }
                                 }
                         )
@@ -101,7 +110,13 @@ struct OnboardingView: View {
                 }
                 .frame(width: buttonWidth, height: buttonSize, alignment: .center)
                 .padding(.vertical)
+                .opacity(isAnimating ? 1 : 0)
+                .offset(y: isAnimating ? 0 : 40)
+                .animation(.easeOut(duration: 1), value: isAnimating)
             }
+        }
+        .onAppear {
+            isAnimating = true
         }
     }
 }
