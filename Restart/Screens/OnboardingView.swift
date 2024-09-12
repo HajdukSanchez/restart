@@ -20,6 +20,7 @@ struct OnboardingView: View {
     @State private var indicatorOpacity: Double = 1.0 // Opactity for the drag indicator we can handle with the image
     @State private var textTile: String = "Share." // Title is going to change when image moves
     private var buttonSize: CGFloat = 80.0
+    private let hapticFeedback = UINotificationFeedbackGenerator()
     
     var body: some View {
         ZStack {
@@ -139,9 +140,13 @@ struct OnboardingView: View {
                                             // If the user stop drag after the half of the button width
                                             buttonOffset = buttonWidth - buttonSize
                                             isOnboardingViewActive = false
+                                            // Play sound
+                                            playSound(sound: "chimeup", type: "mp3")
+                                            hapticFeedback.notificationOccurred(.success)
                                         } else {
                                             // If the user stop drag before the half of the button width
                                             buttonOffset = 0
+                                            hapticFeedback.notificationOccurred(.warning)
                                         }
                                     }
                                 }
@@ -159,6 +164,7 @@ struct OnboardingView: View {
         .onAppear {
             isAnimating = true
         }
+        .preferredColorScheme(.dark)
     }
 }
 
